@@ -46,6 +46,20 @@ class DO():
         db.close()
         print 'affected : %s'%(affected)
         return affected
+
+
+"""
+class Pool(object):
+    __metaclass__ = Singleton
+
+    def __init__(self, db_config):
+        super(Pool, self).__init__()
+        self.pool = DBUtils.PooledDB.PooledDB(MySQLdb, **db_config)
+
+    def connection(self):
+        # TODO test ping
+        return self.pool.connection()
+"""
 if __name__ == '__main__':
     process_list = DO.exe("SHOW PROCESSLIST;")
     for pl in process_list:
