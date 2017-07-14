@@ -124,33 +124,29 @@ data = {"name": "ROOT",
               ]}
          ]}
     ]}
-count = 0
-parent_list = []
-node = data
-print_list = []
-travered = {}
-spaces = "-"
-while node:
-    if node['name'] not in travered.keys():
-        print spaces * (len(parent_list)) + node['name']
-        travered[node['name']] = None
-    print_list.append(node['name'])
-    child_list = node.get('child',[])
-    if child_list:
-        child = child_list.pop(0)
-        if child['name'] not in travered:
-            print spaces * (len(parent_list)+1) + child['name']
-            travered[child['name']] = node['name']
-        parent_list.append(node)
-        node = child
 
-    else:
-        if parent_list and child['name'] not in travered.keys():
-            print spaces*(len(parent_list)+1)+child['name']
-            travered[child['name']] = node['name']
-        print_list = []
-        if parent_list:
-            node = parent_list.pop(-1)
-            count = count + 1
+def json_format(node,padding="--"):
+    parent_list = []
+    traversed = {}
+    while node:
+        if node['name'] not in traversed.keys():
+            print padding * (len(parent_list)) + node['name']
+            traversed[node['name']] = None
+        child_list = node.get('child',[])
+        if child_list:
+            child = child_list.pop(0)
+            if child['name'] not in traversed:
+                print padding * (len(parent_list)+1) + child['name']
+                traversed[child['name']] = node['name']
+            parent_list.append(node)
+            node = child
+
         else:
-            node = None
+            if parent_list and child['name'] not in traversed.keys():
+                print padding*(len(parent_list)+1)+child['name']
+                traversed[child['name']] = node['name']
+            if parent_list:
+                node = parent_list.pop(-1)
+            else:
+                node = None
+json_format(data)
