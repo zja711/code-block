@@ -83,3 +83,14 @@ def set_level_without_recursion(data):
             break
     return copy_data
 
+def get_relations(data):
+    relations = {}
+    queue = [data]
+    while len(queue):
+        node = queue.pop(0)
+        parent_name = node['name']
+        child_list = node.get('child',[])
+        queue.extend(child_list)
+        for c in child_list:
+            relations[c['name']] = parent_name
+    return relations
