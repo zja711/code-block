@@ -5,6 +5,9 @@ raw = [('a','b1'),
        ('a','b2'),
        ('b1','c1'),
        ('b1','c2'),
+       # ('c2','f1'),
+       # ('f1','g1'),
+       # ('g1','h1'),
        ('c1','d1'),
        ('d1','e1'),
        ('d1','e2'),
@@ -94,3 +97,60 @@ def get_relations(data):
         for c in child_list:
             relations[c['name']] = parent_name
     return relations
+
+
+
+data = {"name": "ROOT",
+ "child": [
+        {"name": "Hemiptera",
+         "child": [
+             {"name": "Miridae",
+              "child": [
+                  {"name": "Kanakamiris", "child":[]},
+                  {"name": "Neophloeobia",
+                   "child": [
+                       {"name": "incisa", "child":[] }
+                   ]}
+              ]}
+         ]},
+        {"name": "Lepidoptera",
+         "child": [
+             {"name": "Nymphalidae",
+              "child": [
+                  {"name": "Ephinephile",
+                   "child": [
+                       {"name": "rawnsleyi", "child":[] }
+                   ]}
+              ]}
+         ]}
+    ]}
+count = 0
+parent_list = []
+node = data
+print_list = []
+travered = {}
+spaces = "-"
+while node:
+    if node['name'] not in travered.keys():
+        print spaces * (len(parent_list)) + node['name']
+        travered[node['name']] = None
+    print_list.append(node['name'])
+    child_list = node.get('child',[])
+    if child_list:
+        child = child_list.pop(0)
+        if child['name'] not in travered:
+            print spaces * (len(parent_list)+1) + child['name']
+            travered[child['name']] = node['name']
+        parent_list.append(node)
+        node = child
+
+    else:
+        if parent_list and child['name'] not in travered.keys():
+            print spaces*(len(parent_list)+1)+child['name']
+            travered[child['name']] = node['name']
+        print_list = []
+        if parent_list:
+            node = parent_list.pop(-1)
+            count = count + 1
+        else:
+            node = None
